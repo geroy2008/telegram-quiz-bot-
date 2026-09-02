@@ -12,8 +12,8 @@ from telegram.ext import (
     filters,
 )
 
-ADMIN_ID = int(os.environ.get("ADMIN_ID", 8642809489))
-TOKEN = os.environ.get("TOKEN", "BOT_TOKENINI_SHU_YERGA_YOZING")
+ADMIN_ID = int(os.environ.get("ADMIN_ID", "8642809489"))
+TOKEN = os.environ.get("TOKEN", "")
 
 def init_db():
     conn = sqlite3.connect("quiz_bot.db")
