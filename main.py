@@ -9,11 +9,10 @@ from telegram.ext import (
     MessageHandler,
     ConversationHandler,
     ContextTypes,
-    filters,
-)
-
-ADMIN_ID = int(os.environ.get("ADMIN_ID", "8642809489"))
+    filters,    
+ADMIN_ID = 8642809489
 TOKEN = os.environ.get("TOKEN", "")
+
 
 def init_db():
     conn = sqlite3.connect("quiz_bot.db")
