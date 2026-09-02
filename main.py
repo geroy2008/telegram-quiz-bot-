@@ -1,6 +1,9 @@
 import asyncio
 import logging
+import os
 import sqlite3
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import threading
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application,
@@ -12,13 +15,24 @@ from telegram.ext import (
     filters,
 )
 
-# Yangi ma'lumotlar to'g'ridan-to'g mezonlashtirildi
 ADMIN_ID = 8642809489
 TOKEN = "8887391193:AAHI4esMFTuaHo4mHFtRG1T2ThhtCE2Emc4"
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
+
+# Render Web Service portini aldash uchun soxta veb-server
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot ishlamoqda!")
+
+def run_dummy_server():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+    server.serve_forever()
 
 def init_db():
     conn = sqlite3.connect("quiz_bot.db")
@@ -71,6 +85,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 def main():
+    # Orqa fon rejimsiz soxta port serverini yurgizish
+    threading.Thread(target=run_dummy_server, daemon=True).start()
+    
     init_db()
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
