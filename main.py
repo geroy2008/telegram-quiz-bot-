@@ -11,7 +11,7 @@ from telegram.ext import (
     ContextTypes,
     filters,    
 ADMIN_ID = 8642809489
-TOKEN = os.environ.get("TOKEN", "")
+TOKEN = "7990567490:AAHZy2eY1dtlgQ-Wk8SZXT4hiljfyUn9DMol"
 
 
 def init_db():
